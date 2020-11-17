@@ -12,6 +12,7 @@
 #include <istream>
 
 #include "list.h"
+#include "mailList.h"
 
 using namespace std;
 

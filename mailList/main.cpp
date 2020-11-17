@@ -498,24 +498,6 @@ void menu()
 int main()
 {
     // menu();
-    auto *list = new LinkedList<int>;
-    list->add(10);
-    list->add(100);
-    list->add(1000);
-
-    // printf("%d \n", (list->get(0)));
-    // printf("%d \n", (list->get(1)));
-
-    printf("%d \n", (list->indexOf(100)));
-    printf("%d \n", (list->indexOf(10)));
-    printf("%d \n", (list->indexOf(1)));
-
-    // list->remove(0);
-    list->remove(1);
-
-    for (int i = 0; i < list->size(); ++i)
-    {
-        printf("%d \n", (list->get(i)));
-    }
+    printf("%lu ",sizeof(DATA));
     return 0;
 }
