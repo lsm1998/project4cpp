@@ -16,7 +16,7 @@ private:
     int _size{0};
 
 public:
-    LinkedList() = default;
+    LinkedList();
 
     ~LinkedList();
 
@@ -175,6 +175,13 @@ void LinkedList<T>::remove(int index)
         delete temp;
     }
     this->_size--;
+}
+
+template<typename T>
+LinkedList<T>::LinkedList()
+{
+    this->head= nullptr;
+    this->tail = nullptr;
 }
 
 #endif //PROJECT4CPP_LIST_H

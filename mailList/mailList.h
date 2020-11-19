@@ -6,29 +6,31 @@
 #define PROJECT4CPP_MAIL_LIST_H
 
 #include <string>
-
-using namespace std;
+#include <iostream>
 
 #define FILE_PATH = "data.bin"
+#define STR1(R)  #R
+#define STR2(R)  STR1(R)
+#define GUID_LEN 64
+
+void add_list();
+
+void show_list();
+
+void delete_list();
+
+void search();
+
+std::string generate_uuid();
 
 class Mail
 {
 public:
-    char no[10];
-    char title[20];
+    char id[GUID_LEN];
+    char name[9];
+    char phone[11];
 };
 
 typedef Mail DATA;
-
-class MailList
-{
-private:
-
-public:
-    MailList() = default;
-
-    void init();
-};
-
 
 #endif //PROJECT4CPP_MAIL_LIST_H

@@ -27,6 +27,7 @@ public:
     ~Node();
 };
 
+
 template<typename T>
 Node<T>::Node(Node *prev, Node *next, T data)
 {
@@ -48,7 +49,7 @@ Node<T>::~Node()
 {
     this->prev = nullptr;
     this->next = nullptr;
-    //delete this->data;
+    delete this->data;
 }
 
 
