@@ -65,6 +65,5 @@ int web::Socket::connect_tcp(const char *ip, int port)
     conn_addr.sin_family = AF_INET;
     conn_addr.sin_port = htons(port);
     conn_addr.sin_addr.s_addr = inet_addr(ip);
-
     return 0;
 }

@@ -22,13 +22,13 @@ const int BUFFER_SIZE = 4096;
 class task
 {
 private:
-    int connfd;
+    int conn_fd;
 
 public:
     task()
     {}
 
-    task(int fd) : connfd(fd)
+    task(int fd) : conn_fd(fd)
     {}
 
     ~task()
@@ -38,10 +38,10 @@ public:
     {
         char buf[512];
         sprintf(buf, "HTTP/1.1 %d OK\r\nConnection: Close\r\n"
-                     "content-length:%d\r\n\r\n", status, strlen(message));
+                     "content-length:%zu\r\n\r\n", status, strlen(message));
 
         sprintf(buf, "%s%s", buf, message);
-        write(connfd, buf, strlen(buf));
+        write(conn_fd, buf, strlen(buf));
 
     }
 
@@ -50,7 +50,7 @@ public:
         char buf[128];
         sprintf(buf, "HTTP/1.1 %d OK\r\nConnection: Close\r\n"
                      "content-length:%d\r\n\r\n", status, size);
-        write(connfd, buf, strlen(buf));
+        write(conn_fd, buf, strlen(buf));
     }
 
     void response_get(char *filename);
@@ -65,7 +65,7 @@ void task::doit()
     char buffer[BUFFER_SIZE];
     int size;
     read:
-    size = read(connfd, buffer, BUFFER_SIZE - 1);
+    size = read(conn_fd, buffer, BUFFER_SIZE - 1);
     //printf("%s", buffer);
     if (size > 0)
     {
@@ -141,7 +141,7 @@ void task::doit()
         goto read;
 
     sleep(3);  //wait for client close, avoid TIME_WAIT
-    close(connfd);
+    close(conn_fd);
 }
 
 void task::response_get(char *filename)
@@ -197,14 +197,14 @@ void task::response_get(char *filename)
             只有当前线程会被复制，其他线程就“不见了”，这正符合我们的要求，
             而且fork后执行execl，程序被进程被重新加载*/
         {
-            dup2(connfd, STDOUT_FILENO);
+            dup2(conn_fd, STDOUT_FILENO);
             //将标准输出重定向到sockfd,将子程序输出内容写到客户端去。
             execl(file, argv); //执行子程序
         }
         wait(NULL);
     } else
     {
-        int filefd = open(file, O_RDONLY);
+        int file_fd = open(file, O_RDONLY);
         response_file(filestat.st_size, 200);
         //使用“零拷贝”发送文件
 
@@ -221,10 +221,10 @@ void task::response_get(char *filename)
         // 第 5 个参数hdtr，是一个传输头部尾部长度的指针，可以设置成NULL
         // 第 6 个参数可以忽略，一般是 0
         int len=0;
-        sendfile(filefd, connfd, 0, reinterpret_cast<off_t *>(&len), nullptr, 0);
+        sendfile(file_fd, conn_fd, 0, reinterpret_cast<off_t *>(&len), nullptr, 0);
         printf("%d \n",len);
-        //sendfile(connfd, filefd, 0, reinterpret_cast<off_t *>(filestat.st_size), nullptr, 0);
-        //sendfile(connfd, filefd, 0, reinterpret_cast<off_t *>(filestat.st_size), nullptr, 0);
+        //sendfile(conn_fd, filefd, 0, reinterpret_cast<off_t *>(filestat.st_size), nullptr, 0);
+        //sendfile(conn_fd, filefd, 0, reinterpret_cast<off_t *>(filestat.st_size), nullptr, 0);
     }
 }
 
@@ -273,11 +273,11 @@ void task::response_post(char *filename, char *argvs)
         只有当前线程会被复制，其他线程就“不见了”，这正符合我们的要求，
         而且fork后执行execl，程序被进程被重新加载*/
     {
-        dup2(connfd, STDOUT_FILENO);
+        dup2(conn_fd, STDOUT_FILENO);
         //将标准输出重定向到sockfd,将子程序输出内容写到客户端去。
         execl(file, argv); //执行子程序
     }
-    wait(NULL);
+    wait(nullptr);
 }
 
 
