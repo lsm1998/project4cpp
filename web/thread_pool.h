@@ -12,7 +12,7 @@ typedef std::mutex mutex_locker;
 typedef std::condition_variable cond_locker;
 
 template<class T>
-class threadpool
+class thread_pool
 {
 private:
     int thread_number;  //线程池的线程数
@@ -23,9 +23,9 @@ private:
     cond_locker queue_cond_locker; //cond
     bool is_stop; //是否结束线程
 public:
-    threadpool(int thread_num = 20);
+    thread_pool(int thread_num = 20);
 
-    ~threadpool();
+    ~thread_pool();
 
     bool append_task(T *task);
 
@@ -43,7 +43,7 @@ private:
 };
 
 template<class T>
-threadpool<T>::threadpool(int thread_num):
+thread_pool<T>::thread_pool(int thread_num):
         thread_number(thread_num), is_stop(false), all_threads(NULL)
 {
     if (thread_num <= 0)
@@ -58,14 +58,14 @@ threadpool<T>::threadpool(int thread_num):
 }
 
 template<class T>
-threadpool<T>::~threadpool()
+thread_pool<T>::~thread_pool()
 {
     delete[]all_threads;
     stop();
 }
 
 template<class T>
-void threadpool<T>::stop()
+void thread_pool<T>::stop()
 {
     is_stop = true;
     queue_cond_locker.notify_all();
@@ -73,7 +73,7 @@ void threadpool<T>::stop()
 }
 
 template<class T>
-void threadpool<T>::start()
+void thread_pool<T>::start()
 {
     for (int i = 0; i < thread_number; ++i)
     {
@@ -94,7 +94,7 @@ void threadpool<T>::start()
 
 //添加任务进入任务队列
 template<class T>
-bool threadpool<T>::append_task(T *task)
+bool thread_pool<T>::append_task(T *task)
 {   //获取互斥锁
     queue_mutex_locker.lock();
 
@@ -112,15 +112,15 @@ bool threadpool<T>::append_task(T *task)
 }
 
 template<class T>
-void *threadpool<T>::worker(void *arg)
+void *thread_pool<T>::worker(void *arg)
 {
-    threadpool *pool = (threadpool *) arg;
+    thread_pool *pool = (thread_pool *) arg;
     pool->run();
     return pool;
 }
 
 template<class T>
-T *threadpool<T>::getTask()
+T *thread_pool<T>::getTask()
 {
     T *task = NULL;
     queue_mutex_locker.lock();
@@ -134,7 +134,7 @@ T *threadpool<T>::getTask()
 }
 
 template<class T>
-void threadpool<T>::run()
+void thread_pool<T>::run()
 {
     while (!is_stop)
     {

@@ -7,11 +7,11 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-#define SERVER_PORT 18000
+#define SERVER_PORT 8090
 
 #define SERVER_QUEUE 10
 #define FD_SET_SIZE 10
-#define MAX_BUF 16
+#define MAX_BUF 1024
 
 int main()
 {
@@ -39,7 +39,7 @@ int main()
     listen(serverFd, SERVER_QUEUE);
 
     // 设定fd_set
-    fd_set read_fds, testfds;
+    fd_set read_fds, test_fds;
     FD_ZERO(&read_fds);
     FD_SET(serverFd, &read_fds);
 
@@ -52,13 +52,13 @@ int main()
     while (true)
     {
         FD_SET(serverFd, &read_fds);
-        testfds = read_fds;
+        test_fds = read_fds;
 
-        // 选择readfds中可用的fd
-        if (select(FD_SET_SIZE, &testfds, (fd_set *) NULL, (fd_set *) NULL,
-                   (struct timeval *) NULL) > 0)
+        // 选择read_fds中可用的fd
+        if (select(FD_SET_SIZE, &test_fds, (fd_set *) nullptr, (fd_set *) nullptr,
+                   (struct timeval *) nullptr) > 0)
         {
-            if (FD_ISSET(serverFd, &testfds))
+            if (FD_ISSET(serverFd, &test_fds))
             {
                 // 如果服务器fd可用，则为accept
                 clientAddrLen = sizeof(sockaddr_in);
@@ -78,7 +78,7 @@ int main()
             // 依次查询
             for (int fd = 0; fd < FD_SET_SIZE; fd++)
             {
-                if (FD_ISSET(fd, &testfds))
+                if (FD_ISSET(fd, &test_fds))
                 {
                     // 如果是Client活动，进行Echo
                     len = read(fd, buf, MAX_BUF);

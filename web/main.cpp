@@ -5,7 +5,7 @@ int main()
     int sock_fd, conn_fd;
     struct sockaddr_in server_addr{}, client{};
     int port = atoi(PORT);  //获取端口
-    //设置服务端的sockaddr_in
+    //设置服务端的 sockaddr_in
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
     server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
