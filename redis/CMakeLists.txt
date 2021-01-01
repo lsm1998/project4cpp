@@ -1,6 +1,6 @@
 project(redis)
 
-set(SRC_SERVER server.cpp aof.cpp structure/list.h t_string.cpp t_hash.cpp t_list.cpp)
+set(SRC_SERVER server.cpp aof.cpp structure/list.h t_string.cpp t_hash.cpp t_list.cpp redis.h)
 
 set(SRC_CLI client.cpp)
 
