@@ -31,7 +31,7 @@ int main()
         return 1;
     }
     //创建线程池
-    threadpool<task> pool(20);
+    thread_pool<task> pool(20);
     //线程池开始运行
     pool.start();
 
