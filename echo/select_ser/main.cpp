@@ -15,7 +15,7 @@
 
 int main()
 {
-    //设置服务器Addr，在18000，任意IP监听
+    // 设置服务器Addr，任意IP监听
     int serverFd;
     serverFd = socket(AF_INET, SOCK_STREAM, 0);
 
