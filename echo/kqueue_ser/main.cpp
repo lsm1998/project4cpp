@@ -39,6 +39,7 @@ void updateEvents(int efd, int fd, int events, bool modify)
 
 void handleAccept(int efd, int fd)
 {
+    printf("一个连接进入。。。\n");
     struct sockaddr_in r_addr{};
     socklen_t rsz = sizeof(r_addr);
     int cfd = accept(fd, (struct sockaddr *) &r_addr, &rsz);
@@ -54,6 +55,7 @@ void handleAccept(int efd, int fd)
 
 void handleRead(int efd, int fd)
 {
+    printf("一个连接可读。。。\n");
     char buf[4096];
     int n;
     while ((n = ::read(fd, buf, sizeof buf)) > 0)
@@ -72,6 +74,7 @@ void handleRead(int efd, int fd)
 
 void handleWrite(int efd, int fd)
 {
+    printf("一个连接可写。。。\n");
     //实际应用应当实现可写时写出数据，无数据可写才关闭可写事件
     updateEvents(efd, fd, kReadEvent, true);
 }
