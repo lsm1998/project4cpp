@@ -3,44 +3,66 @@
 //
 #include <string_utils.h>
 
+// 是否中文
 bool is_zh_ch(char c)
 {
     return !~(c >> 8);
 }
 
-std::string sub(std::string str, int start, int end)
+// 字符串转单个字符列表，适用于utf8
+std::vector<std::string> *string_list(const std::string &str)
 {
-    if (typeid(str) == typeid(std::string) && str.length() > 0)
+    auto *list = new std::vector<std::string>();
+    for (int i = 0; i < str.size();)
     {
-        int len = str.length();
-        std::string tmp = "";
-        std::vector<std::string> dump;
-        int i = 0;
-        while (i < len)
+        if (is_zh_ch(str[i]))
         {
-            if (is_zh_ch(str.at(i)) == 1)
-            {
-                dump.push_back(str.substr(i, 2));
-                i = i + 2;
-            } else
-            {
-                dump.push_back(str.substr(i, 1));
-                i = i + 1;
-            }
-        }
-        end = end > 0 ? end : dump.size();
-        if (start < 0 || start > end)
+            list->push_back(str.substr(i, 3));
+            i += 3;
+        } else
         {
-            printf("方法调用错误，第一个参数应该大于等于0且小于第二个参数！\n");
+            list->push_back(str.substr(i, 1));
+            i++;
         }
-        for (int i = start; i <= end; i++)
-        {
-            tmp += dump[i - 1];
-        }
-        return tmp;
-    } else
-    {
-        printf("请输入字符串！\n");
-        return "";
     }
+    return list;
+}
+
+// 是否字母
+bool is_char(const std::string &str)
+{
+    if (str.size() != 1)
+    {
+        return false;
+    }
+    char c = str.at(0);
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+}
+
+// 是否数字
+bool is_digit(const std::string &str)
+{
+    if (str.size() != 1)
+    {
+        return false;
+    }
+    char c = str.at(0);
+    return c >= '0' && c <= '9';
+}
+
+// 是否字母或者数字
+bool is_char_or_digit(const std::string &str)
+{
+    return is_char(str) || is_digit(str);
+}
+
+// 是否空格
+bool is_space_char(const std::string &str)
+{
+    if (str.size() != 1)
+    {
+        return false;
+    }
+    char c = str.at(0);
+    return c == ' ';
 }

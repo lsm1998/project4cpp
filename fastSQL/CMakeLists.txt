@@ -11,6 +11,7 @@ add_executable(fastSQL
         config/config.cpp
         conn_handler/connection_acceptor.cpp
         sql/lex.cpp
+        sql/tokens.h
         utils/string_utils.cpp)
 
 

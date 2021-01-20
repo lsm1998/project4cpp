@@ -1,6 +1,7 @@
 #include "main.h"
 #include <config.h>
 #include <lex.h>
+#include <string_utils.h>
 
 int main()
 {
