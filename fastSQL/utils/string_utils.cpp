@@ -1,23 +1,23 @@
 //
 // Created by 刘时明 on 2021/1/19.
 //
-#include <string_utils.h>
+#include <utils/string_utils.h>
 
 namespace utils
 {
     // 是否中文
-    bool is_zh_ch(char c)
+    bool isZhCh(char c)
     {
         return !~(c >> 8);
     }
 
     // 字符串转单个字符列表，适用于utf8
-    std::vector<std::string> *string_list(const std::string &str)
+    std::vector<std::string> *stringList(const std::string &str)
     {
         auto *list = new std::vector<std::string>();
         for (int i = 0; i < str.size();)
         {
-            if (is_zh_ch(str[i]))
+            if (isZhCh(str[i]))
             {
                 list->push_back(str.substr(i, 3));
                 i += 3;
@@ -31,7 +31,7 @@ namespace utils
     }
 
     // 字母转大写
-    std::string to_up(const std::string &str)
+    std::string toUp(const std::string &str)
     {
         char *c = const_cast<char *>(str.c_str());
         for (int i = 0; i < str.size(); ++i)
@@ -42,7 +42,7 @@ namespace utils
     }
 
     // 是否字母
-    bool is_char(const std::string &str)
+    bool isChar(const std::string &str)
     {
         if (str.size() != 1)
         {
@@ -53,7 +53,7 @@ namespace utils
     }
 
     // 是否数字
-    bool is_digit(const std::string &str)
+    bool isDigit(const std::string &str)
     {
         if (str.size() != 1)
         {
@@ -64,13 +64,13 @@ namespace utils
     }
 
     // 是否字母或者数字
-    bool is_char_or_digit(const std::string &str)
+    bool isCharOrDigit(const std::string &str)
     {
-        return is_char(str) || is_digit(str);
+        return isChar(str) || isDigit(str);
     }
 
     // 是否空格
-    bool is_space_char(const std::string &str)
+    bool isSpaceChar(const std::string &str)
     {
         if (str.size() != 1)
         {

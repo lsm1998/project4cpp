@@ -18,15 +18,15 @@ private:
 public:
     std::string next();
 
-    bool check_equal(const std::string& str);
+    bool checkEqual(const std::string& str);
 
     Prepared* parse(const std::string& sql);
 
-    Prepared* parse_select();
+    Prepared* parseSelect();
 
-    Prepared* parse_insert();
+    Prepared* parseInsert();
 
-    Prepared* parse_update();
+    Prepared* parseUpdate();
 };
 
 #endif //PROJECT4CPP_PARSER_H

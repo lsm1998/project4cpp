@@ -20,9 +20,9 @@ public:
 
     explicit Date(long time);
 
-    [[nodiscard]] long unix_time() const;
+    [[nodiscard]] long uniTime() const;
 
-    std::string format(const std::string &format) const;
+    [[nodiscard]] std::string format(const std::string &format) const;
 };
 
 #endif //PROJECT4CPP_DATE_H

@@ -9,7 +9,7 @@ template<typename T>
 class Comparable
 {
 public:
-    virtual int compare_to(T o) = 0;
+    virtual int compareTo(T o) = 0;
 };
 
 #endif //PROJECT4CPP_SORT_H

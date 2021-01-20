@@ -6,17 +6,17 @@
 
 Prepared *SqlParser::parse(const std::string &sql)
 {
-    this->tokens = sql_tokenizer(sql);
+    this->tokens = sqlTokenizer(sql);
     this->next();
-    if (this->check_equal("SELECT"))
+    if (this->checkEqual("SELECT"))
     {
-        return this->parse_select();
-    } else if (this->check_equal("INSERT"))
+        return this->parseSelect();
+    } else if (this->checkEqual("INSERT"))
     {
-        return this->parse_insert();
-    } else if (this->check_equal("UPDATE"))
+        return this->parseInsert();
+    } else if (this->checkEqual("UPDATE"))
     {
-        return this->parse_update();
+        return this->parseUpdate();
     }
     return nullptr;
 }
@@ -32,23 +32,23 @@ std::string SqlParser::next()
     return nullptr;
 }
 
-bool SqlParser::check_equal(const std::string &str)
+bool SqlParser::checkEqual(const std::string &str)
 {
     return this->currentToken == str;
 }
 
-Prepared *SqlParser::parse_select()
+Prepared *SqlParser::parseSelect()
 {
 
     return nullptr;
 }
 
-Prepared *SqlParser::parse_insert()
+Prepared *SqlParser::parseInsert()
 {
     return nullptr;
 }
 
-Prepared *SqlParser::parse_update()
+Prepared *SqlParser::parseUpdate()
 {
     return nullptr;
 }
