@@ -10,9 +10,17 @@ add_executable(fastSQL
         main.h
         config/config.cpp
         conn_handler/connection_acceptor.cpp
+        table/row.cpp
         sql/lex.cpp
-        sql/tokens.h
-        utils/string_utils.cpp)
+        sql/parser.cpp
+        sql/prepared.cpp
+        sql/dml/select.cpp
+        sql/dml/query.cpp
+        index/cursor.cpp
+        utils/file_utils.cpp
+        utils/string_utils.cpp
+        utils/date.cpp
+        value/value.cpp)
 
 
 target_link_libraries(fastSQL

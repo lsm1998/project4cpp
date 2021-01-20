@@ -2,6 +2,7 @@
 #include <config.h>
 #include <lex.h>
 #include <string_utils.h>
+#include <date.h>
 
 int main()
 {
@@ -12,8 +13,16 @@ int main()
 
     FastConfig *config = FastConfig::getInstance();
     config->load();
-    config->load();
 
-    sql_tokenizer("select * from demo where name='我';");
+    auto *list = sql_tokenizer("select * from demo where name='我';");
+
+    for (auto &c:*list)
+    {
+        cout << c << endl;
+    }
+
+    Date *d = Date::now();
+
+    cout << d->format("%Y-%m-%d") << endl;
     return 0;
 }

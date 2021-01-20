@@ -3,16 +3,18 @@
 //
 #include <lex.h>
 #include <string_utils.h>
+#include <log.h>
 
 std::list<std::string> *sql_tokenizer(const std::string &sql)
 {
+    using namespace utils;
     auto *sql_list = string_list(sql);
     auto *list = new std::list<std::string>();
     int current = 0;
+    // 当前迭代的字符串
     std::string current_str;
-
+    // 字符串拼接
     std::stringbuf append_str{};
-
     while (current < sql_list->size())
     {
         current_str = sql_list->at(current);
@@ -43,7 +45,7 @@ std::list<std::string> *sql_tokenizer(const std::string &sql)
                     }
                 }
             }
-            list->push_back(append_str.str());
+            list->push_back(to_up(append_str.str()));
             continue;
         }
         // 是否数字
@@ -55,7 +57,7 @@ std::list<std::string> *sql_tokenizer(const std::string &sql)
                 append_str.sputn(current_str.c_str(), current_str.size());
                 current_str = sql_list->at(++current);
             }
-            list->push_back(append_str.str());
+            list->push_back(to_up(append_str.str()));
             continue;
         }
         // 是否空格
@@ -64,12 +66,69 @@ std::list<std::string> *sql_tokenizer(const std::string &sql)
             current++;
             continue;
         }
+        // 结束符
         if (current_str == ";")
         {
             break;
         }
+
         // 特殊符号
-        std::cout << current_str << std::endl;
+        if (current_str == "(" || current_str == ")" || current_str == "[" || current_str == "]"
+            || current_str == "," || current_str == "*" || current_str == "=")
+        {
+            list->push_back(current_str);
+            current++;
+        } else if (current_str == "'")
+        {
+            append_str.str("");
+            append_str.sputn("'", 1);
+            std::string last_str = current_str;
+            while (true)
+            {
+                current_str = sql_list->at(++current);
+                if (current_str == "'" && last_str != "\\")
+                {
+                    append_str.sputn(current_str.c_str(), current_str.size());
+                    list->push_back(append_str.str());
+                    break;
+                }
+                append_str.sputn(current_str.c_str(), current_str.size());
+                last_str = current_str;
+            }
+            current++;
+        } else if (current_str == ">")
+        {
+            // 后面是否有 =
+            if (sql_list->at(current + 1) == "=")
+            {
+                list->push_back(">=");
+                current += 2;
+            } else
+            {
+                list->push_back(">");
+                current++;
+            }
+        } else if (current_str == "<")
+        {
+            // 后面是否有 =
+            if (sql_list->at(current + 1) == "=")
+            {
+                list->push_back("<=");
+                current += 2;
+            } else
+            {
+                list->push_back("<");
+                current++;
+            }
+        } else if (current_str == "!")
+        {
+            if (sql_list->at(current + 1) != "=")
+            {
+                ERROR_PRINT_EXIT("Syntax error, '!' must be before '='. \n");
+            }
+            list->push_back("!=");
+            current += 2;
+        }
     }
     return list;
 }

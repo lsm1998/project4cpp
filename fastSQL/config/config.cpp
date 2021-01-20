@@ -2,6 +2,7 @@
 // Created by 刘时明 on 2021/1/12.
 //
 #include <config.h>
+#include <log.h>
 
 FastConfig *FastConfig::instance = nullptr;
 std::mutex FastConfig::m_mutex = std::mutex{};
@@ -25,9 +26,9 @@ void FastConfig::load()
 {
     if (instance->load_version.fetch_add(1) > 0)
     {
-        printf("无需重复加载 \n");
+        INFO_PRINT("无需重复加载 \n");
         return;
     }
-    printf("加载完毕 \n");
+    INFO_PRINT("加载完毕 \n");
 }
 
