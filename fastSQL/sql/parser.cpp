@@ -2,7 +2,7 @@
 // Created by 刘时明 on 2021/1/20.
 //
 #include <sql/parser.h>
-#include <lex.h>
+#include <lex/lex.h>
 
 Prepared *SqlParser::parse(const std::string &sql)
 {

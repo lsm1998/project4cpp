@@ -1,6 +1,5 @@
 #include "main.h"
 #include <config.h>
-#include <utils/string_utils.h>
 #include <utils/date.h>
 
 int main()
