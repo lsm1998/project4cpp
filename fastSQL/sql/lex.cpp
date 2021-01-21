@@ -45,6 +45,29 @@ std::list<std::string> *sql_tokenizer(const std::string &sql)
                     }
                 }
             }
+            // 可能是函数调用
+            if (current_str == "(")
+            {
+                append_str.sputn("(", 1);
+                // 找下一个')'
+                bool flag = false;
+                while (current < sql_list->size())
+                {
+                    current_str = sql_list->at(++current);
+                    if (current_str == ")")
+                    {
+                        append_str.sputn(")", 1);
+                        current++;
+                        flag = true;
+                        break;
+                    }
+                    append_str.sputn(current_str.c_str(), current_str.size());
+                }
+                if (!flag)
+                {
+                    ERROR_PRINT_EXIT("Syntax error, '(' need ')'. \n");
+                }
+            }
             list->push_back(to_up(append_str.str()));
             continue;
         }
