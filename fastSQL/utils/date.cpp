@@ -1,7 +1,7 @@
 //
 // Created by 刘时明 on 2021/1/20.
 //
-#include <date.h>
+#include <utils/date.h>
 
 Date *Date::now()
 {
@@ -13,7 +13,7 @@ Date::Date(long time)
     this->t = time;
 }
 
-long Date::unix_time() const
+long Date::uniTime() const
 {
     return this->t;
 }

@@ -3,7 +3,7 @@
 //
 #include <connection_acceptor.h>
 
-void Connection_acceptor::connection_event_loop()
+void ConnectionAcceptor::connectionEventLoop()
 {
 
 }

@@ -5,7 +5,7 @@
 #include <table/row.h>
 
 template<typename T>
-int Row<T>::compare_to(T o)
+int Row<T>::compareTo(T o)
 {
     return 0;
 }

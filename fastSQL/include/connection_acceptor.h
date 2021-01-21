@@ -6,13 +6,13 @@
 #define FASTSQL_CONNECTION_ACCEPTOR_H
 
 
-class Connection_acceptor
+class ConnectionAcceptor
 {
 public:
     /*
      * 监听连接
      */
-    void connection_event_loop();
+    void connectionEventLoop();
 };
 
 

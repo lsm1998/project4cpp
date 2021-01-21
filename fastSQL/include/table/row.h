@@ -11,7 +11,7 @@ template<typename T>
 class Row : public Comparable<T>
 {
 public:
-    int compare_to(T o);
+    int compareTo(T o);
 };
 
 

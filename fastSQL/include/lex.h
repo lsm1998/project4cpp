@@ -10,6 +10,6 @@
 #include <sstream>
 #include <iostream>
 
-std::list<std::string> *sql_tokenizer(const std::string &sql);
+std::list<std::string> *sqlTokenizer(const std::string &sql);
 
 #endif //PROJECT4CPP_LEX_H
